@@ -1,12 +1,6 @@
-export const team = ['Allan Ibutiti',
-'Damilare Olatuboson',
-'Ayobami Adelakun',
+export const team = [
 'Ejiro Ogidigbo',
-'Gbenga Oshinaga',
-'Kati Frantz',
-'Kayode Ayelegun',
 'Michael Umanah',
-'Victor Adukwu',
 'Felix Mathia',
 'Paul Kariuki',
 'Francis Kipchumba',
@@ -18,5 +12,11 @@ export const team = ['Allan Ibutiti',
 'Stephen Akinyemi',
 'Olusola Oseni',
 'Anyama Richard',
-'Idrees Ibraheem'
+'Idrees Ibraheem',
+'AnnMary Agunanna',
+'Cosmas Billa',
+'Jomo Gitau',
+'Louis Musaje',
+'Victor Mutai',
+'Brian Moitui'
 ];

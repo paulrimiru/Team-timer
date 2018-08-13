@@ -8,6 +8,7 @@ import { dbConfig } from './Config';
 class App extends React.Component<{}, AppState>{
   public timer:number = 0;
   public member:TeamMate;
+  public done = false;
   public state = {
     teamMates: [] as any,
     time: 60,
@@ -176,7 +177,7 @@ class App extends React.Component<{}, AppState>{
     this.setState({
       teamMates: [...this.state.teamMates].map((teamMember: any) => (
         teamMember.name === selectedMember.name
-          ? { ...teamMember, isDone: false, selected: true, time: teamMember.time -1}
+          ? { ...teamMember, isDone: false, selected: true, time: teamMember.time === 0 ? 0 : teamMember.time -1}
           : { ...teamMember }
       )),
       timeLeft: this.secondsToTime(
