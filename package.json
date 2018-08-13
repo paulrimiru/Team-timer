@@ -56,6 +56,7 @@
     "@types/react": "^16.4.9",
     "@types/react-dom": "^16.0.7",
     "typescript": "^3.0.1"
+<<<<<<< HEAD
   },
   "jest": {
     "collectCoverageFrom": [
@@ -105,5 +106,7 @@
     "presets": [
       "react-app"
     ]
+=======
+>>>>>>> feat(main-page): initial commit
   }
 }
