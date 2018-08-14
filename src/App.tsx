@@ -102,7 +102,7 @@ class App extends React.Component<{}, AppState>{
   private startTimer = (selectedMember: TeamMate) => {
     if (this.state.time < 1) {
       this.setState({
-        time: 3
+        time: 60
       })
     }
     this.timer = setInterval(this.countDown(selectedMember), 1000) as any;
