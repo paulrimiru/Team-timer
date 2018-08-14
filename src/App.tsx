@@ -3,32 +3,13 @@ import './App.scss';
 import './assets/scss/globals.scss';
 import { AppState, TeamMate } from './interfaces';
 
+import { team } from './fixtures';
+
 class App extends React.Component<{}, AppState>{
     public timer:number = 0;
     public member:TeamMate;
     public state = {
-      teamMates: ['Allan Ibutiti',
-      'Damilare Olatuboson',
-      'Ayobami Adelakun',
-      'Ejiro Ogidigbo',
-      'Gbenga Oshinaga',
-      'Kati Frantz',
-      'Kayode Ayelegun',
-      'Michael Umanah',
-      'Victor Adukwu',
-      'Felix Mathia',
-      'Paul Kariuki',
-      'Francis Kipchumba',
-      'Olayemi Lawal',
-      'Sonia Karungi',
-      'Iyke Nwankwo',
-      'Anaeze Nsoffor',
-      'Roger Okello',
-      'Stephen Akinyemi',
-      'Olusola Oseni',
-      'Anyama Richard',
-      'Idrees Ibraheem'
-    ].map((member) => ({
+      teamMates: team.map((member) => ({
         isDone: false,
         name: member,
         selected: false,
@@ -79,7 +60,6 @@ class App extends React.Component<{}, AppState>{
   }
 
   private handleTeamMateTime = (selectedMember: TeamMate) => (event: any) => {
-    this.member = selectedMember;
     this.setState({
       teamMates: [...this.state.teamMates].map((teamMember: any) => (
         teamMember.name === selectedMember.name
@@ -108,11 +88,14 @@ class App extends React.Component<{}, AppState>{
   }
 
   private startTimer = (selectedMember: TeamMate) => {
-    if (this.state.time < 1) {
-      this.setState({
-        time: 60
-      })
+    if (this.timer !== 0) {
+      clearInterval(this.timer);
+      this.stopTimer()
     }
+    this.member = selectedMember;
+    this.setState({
+      time: 60
+    })
     this.timer = setInterval(this.countDown(selectedMember), 1000) as any;
   }
 
@@ -141,6 +124,11 @@ class App extends React.Component<{}, AppState>{
     }
 
     this.setState({
+      teamMates: [...this.state.teamMates].map((teamMember: any) => (
+        teamMember.name === selectedMember.name
+          ? { ...teamMember, isDone: false, selected: true}
+          : { ...teamMember }
+      )),
       time: this.state.time - 1,
       timeLeft: this.secondsToTime(this.state.time),
     });
