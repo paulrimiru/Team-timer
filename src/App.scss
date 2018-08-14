@@ -5,22 +5,32 @@
   height: 100vh;
   color: #3359DB;
 
-  &__container {
+  &__timer-div {
     display: flex;
-    flex-direction: column;
     justify-content: center;
-    align-items: center;
-    height: 100vh;
+
+    &__time {
+      display: flex;
+      justify-content: center;
+      font-size: 95px;
+      margin: 12px;
+      font-family: 'Digital-7';
+    }
+
+    &__second {
+      margin-top: 65px;
+    }
+  }
+
+  &__timer-position {
+    position: relative;
+    top: 35%;
+    right: 25%;
 
     &__title {
       font-size: 18px;
       font-weight: 400;
-    }
-
-    &__time {
-      display: flex;
-      font-size: 30px;
-      margin: 12px
+      text-align: center;
     }
 
     &__done {
@@ -33,6 +43,21 @@
       border-radius: 12px;
       margin-bottom: 12px;
       cursor: pointer;
+    }
+
+  }
+
+  &__container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+
+    &__title {
+      font-size: 18px;
+      font-weight: 400;
+      margin-bottom: 20px;
     }
 
     &__list {
