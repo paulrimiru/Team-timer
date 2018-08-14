@@ -1,5 +1,6 @@
 import * as React from 'react';
 import './App.scss';
+import './assets/scss/globals.scss';
 import { AppState, TeamMate } from './interfaces';
 
 class App extends React.Component<{}, AppState>{
@@ -47,14 +48,21 @@ class App extends React.Component<{}, AppState>{
   public render() {
     return (
       <div className="main-page">
+      <div className="main-page__timer-position">
+      <div className="main-page__timer-position__title">Timer</div>
+      <div className="main-page__timer-div">
+      <div className="main-page__timer-div__time">{this.state.timeLeft.seconds}</div>
+      <p className="main-page__timer-div__second">s</p>
+      </div>
+      <div className="main-page__timer-position__done" onClick={this.stopTimer}> Done</div>
+        </div>
         <div className="main-page__container">
-          <div className="main-page__container__title">Activo Team Timer</div>
-          <div className="main-page__container__time">{this.state.timeLeft.seconds} Seconds</div>
-          <div className="main-page__container__done" onClick={this.stopTimer}>Done</div>
+          <div className="main-page__container__title">Activo Team Members</div>
           <div className="main-page__container__list">
             {
-              this.state.teamMates.map((teamMember) => (
+              this.state.teamMates.map((teamMember, index) => (
                 <div
+                  key={index}
                   className={`main-page__container__list-item${teamMember.isDone ? '-done': ''}`}
                   onClick={this.handleTeamMateTime(teamMember)}>
                   <div className="main-page__list-item__name">{`${teamMember.name}`}</div>
