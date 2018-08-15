@@ -32,7 +32,13 @@ class App extends React.Component<{}, AppState>{
       <div className="main-page__timer-position">
       <div className="main-page__timer-position__title">Timer</div>
       <div className="main-page__timer-div">
-      <div className="main-page__timer-div__time">{this.state.timeLeft.seconds}</div>
+      <div className={
+        this.state.timeLeft.seconds <= 15 ?
+        "main-page__timer-div__time-critical" :
+        "main-page__timer-div__time"
+      }>
+      {this.state.timeLeft.seconds}
+      </div>
       <p className="main-page__timer-div__second">s</p>
       </div>
       <div className="main-page__timer-position__done" onClick={this.stopTimer}> Done</div>
@@ -112,7 +118,7 @@ class App extends React.Component<{}, AppState>{
   }
 
   private countDown = (selectedMember: TeamMate) => () => {
-    if (this.state.time === 0) { 
+    if (this.state.time === 0) {
       clearInterval(this.timer);
       this.setState({
         teamMates: [...this.state.teamMates].map((teamMember: any) => (
