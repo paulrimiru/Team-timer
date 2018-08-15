@@ -41,7 +41,6 @@ class App extends React.Component<{}, AppState>{
       </div>
       <p className="main-page__timer-div__second">s</p>
       </div>
-      <div className="main-page__timer-position__done" onClick={this.stopTimer}> Done</div>
         </div>
         <div className="main-page__container">
           <div className="main-page__container__title">Activo Team Members</div>
