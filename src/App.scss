@@ -1,10 +1,10 @@
 .main-page {
   display: flex;
-  justify-content: center;
-  width: 100vw;
+  justify-content: space-around;
+  flex-direction: row;
+  align-items: center;
   height: 100vh;
   color: #3359DB;
-  // overflow: hidden;
 
   &__timer-div {
     display: flex;
@@ -38,9 +38,7 @@
   }
 
   &__timer-position {
-    position: relative;
-    top: 35%;
-    right: 25%;
+    flex: 1;
 
     &__title {
       font-size: 18px;
@@ -51,17 +49,17 @@
   }
 
   &__container {
-    position: absolute;
     display: flex;
+    flex: 1;
     flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    height: 95vh;
+    justify-content: flex-start;
+    align-items: flex-start;
 
     &__title {
       font-size: 18px;
       font-weight: 400;
       margin-bottom: 20px;
+      margin-left: 10px;
     }
 
     &__check {
@@ -69,13 +67,11 @@
     }
 
     &__list {
-      position: relative;
       width: 400px;
-      margin: 20px auto 0;
+      height: 80vh;
       padding: 10px;
       box-sizing: border-box;
       overflow-y: auto;
-      background: #F8F9F9;
 
       &-item {
         display: flex;
