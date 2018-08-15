@@ -4,6 +4,7 @@
   width: 100vw;
   height: 100vh;
   color: #3359DB;
+  // overflow: hidden;
 
   &__timer-div {
     display: flex;
@@ -26,9 +27,13 @@
       color: 	#FF0000;
     }
 
-
     &__second {
       margin-top: 65px;
+    }
+
+    &__second-critical {
+      margin-top: 65px;
+      color: 	#FF0000;
     }
   }
 
@@ -46,11 +51,12 @@
   }
 
   &__container {
+    position: absolute;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    height: 100vh;
+    height: 95vh;
 
     &__title {
       font-size: 18px;
@@ -58,13 +64,18 @@
       margin-bottom: 20px;
     }
 
+    &__check {
+      color:#008000
+    }
+
     &__list {
-      display: flex;
-      flex-direction: column;
-      justify-content: flex-start;
-      align-items: flex-start;
-      height: 80vh;
+      position: relative;
+      width: 400px;
+      margin: 20px auto 0;
+      padding: 10px;
+      box-sizing: border-box;
       overflow-y: auto;
+      background: #F8F9F9;
 
       &-item {
         display: flex;
@@ -78,12 +89,6 @@
         padding: 4px;
         border: 1px solid #FFAF30;
         cursor: pointer;
-
-        &-done {
-          text-decoration: line-through;
-          margin-bottom: 8px;
-          cursor: pointer;
-        }
       }
 
       &-item:hover {
