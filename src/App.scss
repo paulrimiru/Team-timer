@@ -17,6 +17,16 @@
       font-family: 'Digital-7';
     }
 
+    &__time-critical {
+      display: flex;
+      justify-content: center;
+      font-size: 95px;
+      margin: 12px;
+      font-family: 'Digital-7';
+      color: 	#FF0000;
+    }
+
+
     &__second {
       margin-top: 65px;
     }
