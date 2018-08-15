@@ -43,18 +43,6 @@
       text-align: center;
     }
 
-    &__done {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      width: 100px;
-      height: 50px;
-      border: 2px solid #FFAF30;
-      border-radius: 12px;
-      margin-bottom: 12px;
-      cursor: pointer;
-    }
-
   }
 
   &__container {
@@ -93,7 +81,8 @@
 
         &-done {
           text-decoration: line-through;
-          margin-bottom: 8px
+          margin-bottom: 8px;
+          cursor: pointer;
         }
       }
 
