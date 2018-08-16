@@ -11,8 +11,10 @@ class App extends React.Component<{}, AppState>{
     public state = {
       teamMates: team.map((member) => ({
         isDone: false,
+        isPaused: false,
         name: member,
         selected: false,
+        time: 60,
       })),
       time: 60,
       timeLeft: {
@@ -58,7 +60,9 @@ class App extends React.Component<{}, AppState>{
                   }>
                   <div className="main-page__list-item__name">{`${teamMember.name}`}</div>
                   {
-                    teamMember.selected && <div>Speaking</div>
+                    teamMember.selected 
+                      ? <div>Speaking</div> 
+                      : teamMember.isPaused && !teamMember.isDone && <div>&#10074; &#10074;</div>
                   }
                   {
                     teamMember.isDone &&  <div className="main-page__container__check">&#x2714;</div>
@@ -73,14 +77,37 @@ class App extends React.Component<{}, AppState>{
   }
 
   private handleTeamMateTime = (selectedMember: TeamMate) => (event: any) => {
-    this.setState({
-      teamMates: [...this.state.teamMates].map((teamMember: any) => (
-        teamMember.name === selectedMember.name
-          ? { ...teamMember, selected: true }
-          : { ...teamMember, selected: false }
-      ))
-    })
-    this.startTimer(selectedMember);
+    if (this.member && selectedMember.name === this.member.name) {
+      if(this.timer === 0 && selectedMember.time > 0){
+        this.setState({
+          teamMates: [...this.state.teamMates].map((teamMember: any) => (
+            teamMember.name === selectedMember.name
+              ? { ...teamMember, selected: true }
+              : { ...teamMember, selected: false }
+          ))
+        })
+        this.startTimer(selectedMember);
+      } else {
+        clearInterval(this.timer);
+        this.timer = 0;
+        this.setState({
+          teamMates: [...this.state.teamMates].map((teamMember: any) => (
+            teamMember.name === selectedMember.name
+              ? { ...teamMember, selected: false, isPaused: !teamMember.isPaused }
+              : { ...teamMember, selected: false }
+          ))
+        })
+      }
+    } else {
+      this.setState({
+        teamMates: [...this.state.teamMates].map((teamMember: any) => (
+          teamMember.name === selectedMember.name
+            ? { ...teamMember, selected: true }
+            : { ...teamMember, selected: false }
+        ))
+      })
+      this.startTimer(selectedMember);
+    }
   }
 
   private secondsToTime = (secs: any) => {
@@ -103,30 +130,29 @@ class App extends React.Component<{}, AppState>{
   private startTimer = (selectedMember: TeamMate) => {
     if (this.timer !== 0) {
       clearInterval(this.timer);
+      this.timer = 0;
       this.stopTimer()
     }
     this.member = selectedMember;
-    this.setState({
-      time: 60
-    })
     this.timer = setInterval(this.countDown(selectedMember), 1000) as any;
   }
 
   private stopTimer = () => {
     clearInterval(this.timer);
+    this.timer = 0;
     this.setState({
       teamMates: [...this.state.teamMates].map((teamMember: any) => (
         teamMember.name === this.member.name
-          ? { ...teamMember, isDone: true, selected: false}
+          ? { ...teamMember, isDone: true, selected: false, time: 60}
           : { ...teamMember }
-      )),
-      time: 60,
+      ))
     })
   }
 
   private countDown = (selectedMember: TeamMate) => () => {
-    if (this.state.time === 0) {
+    if (selectedMember.time === 0) {
       clearInterval(this.timer);
+      this.timer = 0;
       this.setState({
         teamMates: [...this.state.teamMates].map((teamMember: any) => (
           teamMember.name === selectedMember.name
@@ -139,11 +165,12 @@ class App extends React.Component<{}, AppState>{
     this.setState({
       teamMates: [...this.state.teamMates].map((teamMember: any) => (
         teamMember.name === selectedMember.name
-          ? { ...teamMember, isDone: false, selected: true}
+          ? { ...teamMember, isDone: false, selected: true, time: teamMember.time -1}
           : { ...teamMember }
       )),
-      time: this.state.time - 1,
-      timeLeft: this.secondsToTime(this.state.time),
+      timeLeft: this.secondsToTime(
+        this.state.teamMates.find(teamMember => teamMember.name === selectedMember.name).time
+      ),
     });
   }
 }

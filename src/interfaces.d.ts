@@ -2,6 +2,8 @@ export interface TeamMate {
   name: string;
   isDone: boolean;
   selected: boolean;
+  isPaused: boolean;
+  time: number;
 }
 
 interface TimeLeft {
