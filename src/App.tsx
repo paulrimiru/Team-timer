@@ -39,7 +39,11 @@ class App extends React.Component<{}, AppState>{
       }>
       {this.state.timeLeft.seconds}
       </div>
-      <p className="main-page__timer-div__second">s</p>
+      <p className={
+        this.state.timeLeft.seconds <= 15 ?
+        "main-page__timer-div__second-critical":
+        "main-page__timer-div__second"
+        }>s</p>
       </div>
         </div>
         <div className="main-page__container">
@@ -49,15 +53,19 @@ class App extends React.Component<{}, AppState>{
               this.state.teamMates.map((teamMember, index) => (
                 <div
                   key={index}
-                  className={`main-page__container__list-item${teamMember.isDone ? '-done': ''}`}
-                  onClick={this.handleTeamMateTime(teamMember)}>
+                  className="main-page__container__list-item"
+                  onClick={this.handleTeamMateTime(teamMember)
+                  }>
                   <div className="main-page__list-item__name">{`${teamMember.name}`}</div>
                   {
                     teamMember.selected && <div>Speaking</div>
                   }
+                  {
+                    teamMember.isDone &&  <div className="main-page__container__check">&#x2714;</div>
+                  }
                 </div>
               ))
-            }
+              }
           </div>
         </div>
       </div>
@@ -77,13 +85,13 @@ class App extends React.Component<{}, AppState>{
 
   private secondsToTime = (secs: any) => {
     const hours = Math.floor(secs / (60 * 60));
-  
+
     const minutesDivisor = secs % (60 * 60);
     const minutes = Math.floor(minutesDivisor / 60);
-  
+
     const secondsDivisor = minutesDivisor % 60;
     const seconds = Math.ceil(secondsDivisor);
-  
+
     const obj = {
       "hours": hours,
       "minute": minutes,

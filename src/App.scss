@@ -1,7 +1,8 @@
 .main-page {
   display: flex;
-  justify-content: center;
-  width: 100vw;
+  justify-content: space-around;
+  flex-direction: row;
+  align-items: center;
   height: 100vh;
   color: #3359DB;
 
@@ -26,16 +27,18 @@
       color: 	#FF0000;
     }
 
-
     &__second {
       margin-top: 65px;
+    }
+
+    &__second-critical {
+      margin-top: 65px;
+      color: 	#FF0000;
     }
   }
 
   &__timer-position {
-    position: relative;
-    top: 35%;
-    right: 25%;
+    flex: 1;
 
     &__title {
       font-size: 18px;
@@ -47,23 +50,27 @@
 
   &__container {
     display: flex;
+    flex: 1;
     flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
+    justify-content: flex-start;
+    align-items: flex-start;
 
     &__title {
       font-size: 18px;
       font-weight: 400;
       margin-bottom: 20px;
+      margin-left: 10px;
+    }
+
+    &__check {
+      color:#008000
     }
 
     &__list {
-      display: flex;
-      flex-direction: column;
-      justify-content: flex-start;
-      align-items: flex-start;
+      width: 400px;
       height: 80vh;
+      padding: 10px;
+      box-sizing: border-box;
       overflow-y: auto;
 
       &-item {
@@ -78,12 +85,6 @@
         padding: 4px;
         border: 1px solid #FFAF30;
         cursor: pointer;
-
-        &-done {
-          text-decoration: line-through;
-          margin-bottom: 8px;
-          cursor: pointer;
-        }
       }
 
       &-item:hover {
