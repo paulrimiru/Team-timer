@@ -3,29 +3,40 @@ import './App.scss';
 import './assets/scss/globals.scss';
 import { AppState, TeamMate } from './interfaces';
 
-import { team } from './fixtures';
-
+import { initializeApp } from 'firebase';
+import { dbConfig } from './Config';
 class App extends React.Component<{}, AppState>{
-    public timer:number = 0;
-    public member:TeamMate;
-    public state = {
-      teamMates: team.map((member) => ({
-        isDone: false,
-        isPaused: false,
-        name: member,
-        selected: false,
-        time: 60,
-      })),
-      time: 60,
-      timeLeft: {
-        "hours": 0,
-        "minute": 0,
-        "seconds": 0
-      },
-    }
-
+  public timer:number = 0;
+  public member:TeamMate;
+  public state = {
+    teamMates: [] as any,
+    time: 60,
+    timeLeft: {
+      "hours": 0,
+      "minute": 0,
+      "seconds": 0
+    },
+  }
+  public app:any;
+  public database:any;
   constructor(props: any) {
     super(props);
+    this.app = initializeApp(dbConfig);
+    this.database =  this.app.database().ref().child('members');
+  }
+
+  public componentDidMount() {
+    this.database.on('value', (snap: any)=> {
+      this.setState({
+        teamMates: snap.val().map((member: any) => ({
+          isDone: false,
+          isPaused: false,
+          name: member,
+          selected: false,
+          time: 60,
+        })),
+      })
+    })
   }
 
   public render() {
@@ -52,7 +63,7 @@ class App extends React.Component<{}, AppState>{
           <div className="main-page__container__title">Activo Team Members</div>
           <div className="main-page__container__list">
             {
-              this.state.teamMates.map((teamMember, index) => (
+              this.state.teamMates.map((teamMember: any, index: any) => (
                 <div
                   key={index}
                   className="main-page__container__list-item"
@@ -169,7 +180,7 @@ class App extends React.Component<{}, AppState>{
           : { ...teamMember }
       )),
       timeLeft: this.secondsToTime(
-        this.state.teamMates.find(teamMember => teamMember.name === selectedMember.name).time
+        this.state.teamMates.find((teamMember: any) => teamMember.name === selectedMember.name).time
       ),
     });
   }
