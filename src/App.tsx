@@ -1,7 +1,10 @@
+/* tslint:disable */
+import * as _ from "lodash";
 import * as React from 'react';
 import './App.scss';
 import './assets/scss/globals.scss';
 import { AppState, TeamMate } from './interfaces';
+
 
 import { initializeApp } from 'firebase';
 import { dbConfig } from './Config';
@@ -161,7 +164,7 @@ class App extends React.Component<{}, AppState>{
   }
 
   private countDown = (selectedMember: TeamMate) => () => {
-    if (selectedMember.time === 0) {
+    if (selectedMember.time === 0 ) {
       clearInterval(this.timer);
       this.timer = 0;
       this.setState({
@@ -172,17 +175,21 @@ class App extends React.Component<{}, AppState>{
         ))
       })
     }
+    
+    this.setState(()=>this.setSelected(this.state.teamMates,selectedMember));
+  }
 
-    this.setState({
-      teamMates: [...this.state.teamMates].map((teamMember: any) => (
+
+  private setSelected(teamMembers:[TeamMate],selectedMember:TeamMate){
+      const member =   _.find(teamMembers,{name:selectedMember.name})
+      return {
+       teamMates: [...teamMembers].map((teamMember: any) => (
         teamMember.name === selectedMember.name
-          ? { ...teamMember, isDone: false, selected: true, time: teamMember.time -1}
+          ? { ...teamMember, isDone:false, selected:true, time: teamMember.time -1 }
           : { ...teamMember }
       )),
-      timeLeft: this.secondsToTime(
-        this.state.teamMates.find((teamMember: any) => teamMember.name === selectedMember.name).time
-      ),
-    });
+       timeLeft: this.secondsToTime(member.time)
+     }
   }
 }
 
