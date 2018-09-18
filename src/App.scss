@@ -75,7 +75,6 @@
 
       &-item {
         display: flex;
-        width: 300px;
         height: 50px;
         flex-direction: row;
         justify-content: space-between;
@@ -91,6 +90,39 @@
         box-shadow: 0.0625rem 0.2125rem 0.8rem 0 rgba(0, 0, 0, 0.1);
         transition: box-shadow 300ms ease-in-out;
       }
+    }
+  }
+
+  &__input-container {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    flex: 1;
+    padding: 60px;
+
+    &__input {
+      width: 400px;
+      height: 50px;
+      border: 1px solid #3359DB;
+      font-size: 25px;
+      text-align: center;
+
+      &:focus {
+        outline: none;
+      }
+    }
+
+    &__submit-button {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 300px;
+      height: 75px;
+      margin-top: 20px;
+      background-color: #3359DB;
+      border-radius: 6px;
+      color: #FFAF30;
+      cursor: pointer;
     }
   }
 }
