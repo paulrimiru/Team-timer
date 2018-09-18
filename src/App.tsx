@@ -19,9 +19,11 @@ class App extends React.Component<{}, AppState>{
       "minute": 0,
       "seconds": 0
     },
+    memberName: '',
   }
   public app:any;
   public database:any;
+
   constructor(props: any) {
     super(props);
     this.app = initializeApp(dbConfig);
@@ -29,12 +31,17 @@ class App extends React.Component<{}, AppState>{
   }
 
   public componentDidMount() {
+    this.getTeamMembers()
+  }
+
+  public getTeamMembers = () => {
     this.database.on('value', (snap: any)=> {
+      const teamList = snap.val();
       this.setState({
-        teamMates: snap.val().map((member: any) => ({
+        teamMates: Object.keys(teamList).map((memberKey: any) => ({
           isDone: false,
           isPaused: false,
-          name: member,
+          name: teamList[memberKey],
           selected: false,
           time: 60,
         })),
@@ -42,51 +49,82 @@ class App extends React.Component<{}, AppState>{
     })
   }
 
+  public onTeamMemberChange = (event: any) => {
+    this.setState({
+      memberName: event.target.value,
+    })
+  }
+
+  public onTeamMemberSubmit = (event: any) => {
+    if (this.state.memberName !== '') {
+      this.database.push(this.state.memberName);
+      this.setState({
+        memberName: '',
+      });
+    }
+  }
+
   public render() {
     return (
       <div className="main-page">
-      <div className="main-page__timer-position">
-      <div className="main-page__timer-position__title">Timer</div>
-      <div className="main-page__timer-div">
-      <div className={
-        this.state.timeLeft.seconds <= 15 ?
-        "main-page__timer-div__time-critical" :
-        "main-page__timer-div__time"
-      }>
-      {this.state.timeLeft.seconds}
-      </div>
-      <p className={
-        this.state.timeLeft.seconds <= 15 ?
-        "main-page__timer-div__second-critical":
-        "main-page__timer-div__second"
-        }>s</p>
-      </div>
-        </div>
-        <div className="main-page__container">
-          <div className="main-page__container__title">Activo Team Members</div>
-          <div className="main-page__container__list">
-            {
-              this.state.teamMates.map((teamMember: any, index: any) => (
-                <div
-                  key={index}
-                  className="main-page__container__list-item"
-                  onClick={this.handleTeamMateTime(teamMember)
-                  }>
-                  <div className="main-page__list-item__name">{`${teamMember.name}`}</div>
-                  {
-                    teamMember.selected 
-                      ? <div>Speaking</div> 
-                      : teamMember.isPaused && !teamMember.isDone && <div>&#10074; &#10074;</div>
-                  }
-                  {
-                    teamMember.isDone &&  <div className="main-page__container__check">&#x2714;</div>
-                  }
-                </div>
-              ))
-              }
+        <div className="main-page__timer-position">
+          <div className="main-page__timer-position__title">Timer</div>
+            <div className="main-page__timer-div">
+              <div className={
+                this.state.timeLeft.seconds <= 15 ?
+                "main-page__timer-div__time-critical" :
+                "main-page__timer-div__time"
+              }>
+                {this.state.timeLeft.seconds}
+              </div>
+              <p className={
+                this.state.timeLeft.seconds <= 15 ?
+                "main-page__timer-div__second-critical":
+                "main-page__timer-div__second"
+              }>
+                s
+              </p>
+            </div>
           </div>
+          <div className="main-page__container">
+            <div className="main-page__container__title">Activo Team Members</div>
+            <div className="main-page__container__list">
+              {
+                this.state.teamMates.map((teamMember: any, index: any) => (
+                  <div
+                    key={index}
+                    className="main-page__container__list-item"
+                    onClick={this.handleTeamMateTime(teamMember)
+                    }>
+                    <div className="main-page__list-item__name">{`${teamMember.name}`}</div>
+                    {
+                      teamMember.selected 
+                        ? <div>Speaking</div> 
+                        : teamMember.isPaused && !teamMember.isDone && <div>&#10074; &#10074;</div>
+                    }
+                    {
+                      teamMember.isDone &&  <div className="main-page__container__check">&#x2714;</div>
+                    }
+                  </div>
+                ))
+              }
+            </div>
+          </div>
+          <div className="main-page__input-container">
+              <input
+                type="text"
+                className="main-page__input-container__input"
+                placeholder="Team member name"
+                value={this.state.memberName}
+                onChange={this.onTeamMemberChange}/>
+              <div
+                className="main-page__input-container__submit-button"
+                onClick={this.onTeamMemberSubmit}
+              >
+                Add Member
+              </div>
+            </div>
         </div>
-      </div>
     );
   }
 

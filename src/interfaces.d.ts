@@ -16,4 +16,5 @@ export interface AppState {
   teamMates: TeamMate[];
   timeLeft: TimeLeft;
   time: number;
+  memberName: string;
 }
