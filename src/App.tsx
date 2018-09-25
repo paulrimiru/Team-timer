@@ -11,6 +11,7 @@ import { dbConfig } from './Config';
 class App extends React.Component<{}, AppState>{
   public timer:number = 0;
   public member:TeamMate;
+  public done = false;
   public state = {
     teamMates: [] as any,
     time: 60,
@@ -39,6 +40,7 @@ class App extends React.Component<{}, AppState>{
       const teamList = snap.val();
       this.setState({
         teamMates: Object.keys(teamList).map((memberKey: any) => ({
+          id: memberKey,
           isDone: false,
           isPaused: false,
           name: teamList[memberKey],
@@ -62,6 +64,10 @@ class App extends React.Component<{}, AppState>{
         memberName: '',
       });
     }
+  }
+
+  public deleteMember = (teamMember: any) => () => {
+    this.database.child(teamMember.id).remove();
   }
 
   public render() {
@@ -94,17 +100,24 @@ class App extends React.Component<{}, AppState>{
                   <div
                     key={index}
                     className="main-page__container__list-item"
-                    onClick={this.handleTeamMateTime(teamMember)
-                    }>
-                    <div className="main-page__list-item__name">{`${teamMember.name}`}</div>
-                    {
-                      teamMember.selected 
-                        ? <div>Speaking</div> 
-                        : teamMember.isPaused && !teamMember.isDone && <div>&#10074; &#10074;</div>
-                    }
-                    {
-                      teamMember.isDone &&  <div className="main-page__container__check">&#x2714;</div>
-                    }
+                  >
+                    <div
+                      className="main-page__container__list-item-container"
+                      onClick={this.handleTeamMateTime(teamMember)}>
+                        <div className="main-page__list-item__name">{`${teamMember.name}`}</div>
+                        {
+                          teamMember.selected 
+                            ? <div>Speaking</div> 
+                            : teamMember.isPaused && !teamMember.isDone && <div>&#10074; &#10074;</div>
+                        }
+                        {
+                          teamMember.isDone &&  <div className="main-page__container__check">&#x2714;</div>
+                        }
+                    </div>
+                    <img
+                      className="main-page__container__delete-icon"
+                      src="https://res.cloudinary.com/mikekrantz/image/upload/v1537265689/delete.svg"
+                      onClick={this.deleteMember(teamMember)}/>
                   </div>
                 ))
               }
@@ -223,7 +236,7 @@ class App extends React.Component<{}, AppState>{
       return {
        teamMates: [...teamMembers].map((teamMember: any) => (
         teamMember.name === selectedMember.name
-          ? { ...teamMember, isDone:false, selected:true, time: teamMember.time -1 }
+          ? { ...teamMember, isDone: false, selected: true, time: teamMember.time === 0 ? 0 : teamMember.time -1}
           : { ...teamMember }
       )),
        timeLeft: this.secondsToTime(member.time)
