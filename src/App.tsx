@@ -1,6 +1,7 @@
 /* tslint:disable */
 import * as _ from "lodash";
 import * as React from 'react';
+import * as toastr from 'toastr';
 import './App.scss';
 import './assets/scss/globals.scss';
 import { AppState, TeamMate } from './interfaces';
@@ -63,11 +64,13 @@ class App extends React.Component<{}, AppState>{
       this.setState({
         memberName: '',
       });
+      toastr.info(`Added ${this.state.memberName}`)
     }
   }
 
   public deleteMember = (teamMember: any) => () => {
     this.database.child(teamMember.id).remove();
+    toastr.info(`${teamMember.name} removed`)
   }
 
   public render() {
