@@ -103,7 +103,8 @@ class App extends React.Component<{}, AppState>{
                   >
                     <div
                       className="main-page__container__list-item-container"
-                      onClick={this.handleTeamMateTime(teamMember)}>
+                      onClick={this.handleTeamMateTime(teamMember)}
+                      >
                         <div className="main-page__list-item__name">{`${teamMember.name}`}</div>
                         {
                           teamMember.selected 
@@ -114,10 +115,12 @@ class App extends React.Component<{}, AppState>{
                           teamMember.isDone &&  <div className="main-page__container__check">&#x2714;</div>
                         }
                     </div>
-                    <img
-                      className="main-page__container__delete-icon"
-                      src="https://res.cloudinary.com/mikekrantz/image/upload/v1537265689/delete.svg"
-                      onClick={this.deleteMember(teamMember)}/>
+                    <div onClick={this.deleteMember(teamMember)}>
+                      <img
+                        className="main-page__container__delete-icon"
+                        src="https://res.cloudinary.com/mikekrantz/image/upload/v1537265689/delete.svg"
+                        />
+                      </div>
                   </div>
                 ))
               }
